@@ -4,6 +4,8 @@
   "description": "Simple generic cellular-automata engine written in typescript.",
   "main": "index.js",
   "scripts": {
+    "copy-html": "node ./copy-html.js",
+    "prebuild": "npm run copy-html",
     "build": "tsc -p ."
   },
   "repository": {
