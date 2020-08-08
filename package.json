@@ -1,0 +1,22 @@
+{
+  "name": "cellularautomataengine",
+  "version": "1.0.0",
+  "description": "Simple generic cellular-automata engine written in typescript.",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/damymetzke/CellularAutomataEngine.git"
+  },
+  "author": "Damy Metzke",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/damymetzke/CellularAutomataEngine/issues"
+  },
+  "homepage": "https://github.com/damymetzke/CellularAutomataEngine#readme",
+  "devDependencies": {
+    "typescript": "^3.9.7"
+  }
+}
