@@ -4,6 +4,8 @@
   "description": "Simple generic cellular-automata engine written in typescript.",
   "main": "index.js",
   "scripts": {
+    "compile-sass": "node ./compile-sass.js",
+    "precopy-html": "npm run compile-sass",
     "copy-html": "node ./copy-html.js",
     "prebuild": "npm run copy-html",
     "build": "tsc -p ."
@@ -20,5 +22,8 @@
   "homepage": "https://github.com/damymetzke/CellularAutomataEngine#readme",
   "devDependencies": {
     "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "sass": "^1.26.10"
   }
 }
