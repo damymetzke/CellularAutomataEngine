@@ -1,8 +1,40 @@
+$color-dark: #070518;
+$color-light: #eeedb7;
+
+html
+{
+    background-color: $color-dark;
+    padding: 0;
+    margin: 0;
+}
+
 body
 {
-    background-color: red;
-    p
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: $color-dark;
+    color: $color-light;
+}
+
+header
+{
+    border-bottom: $color-light dotted 3px;
+    margin-bottom: 50px;
+}
+
+main
+{
+    display: flex;
+
+    justify-content: center;
+
+    padding-bottom: 100px;
+
+    >svg
     {
-        color: white;
+        width: 80%;
+        height: auto;
+        margin: 0 auto;
     }
 }
