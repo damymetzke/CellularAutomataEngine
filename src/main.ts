@@ -2,6 +2,12 @@ const CELL_GAP_RATIO: number = 0.05;
 
 const GAP_COLOR: string = "#544444";
 
+const SURROUND_TEMPLATE = [
+    [ -1, -1 ], [ 0, -1 ], [ 1, -1 ],
+    [ -1, 0 ], [ 1, 0 ],
+    [ -1, 1 ], [ 0, 1 ], [ 1, 1 ]
+];
+
 enum EditMode
 {
     CYCLE,
@@ -11,13 +17,11 @@ enum EditMode
 let editMode: EditMode = EditMode.CYCLE;
 let cycleMap = {
     0: 1,
-    1: 2,
-    2: 0
+    1: 0
 };
 let colorMap = {
     0: "#222222",
-    1: "#cc4444",
-    2: "#44cccc"
+    1: "#cccc44"
 };
 
 let grid: SVGRectElement[] = [];
@@ -63,7 +67,7 @@ function buildGridBackground(n: number): void
     }
 }
 
-function buildEditableGridCells(n: number): void
+function buildGridCells(n: number): void
 {
     /*
      * ALGORITHM:
@@ -80,15 +84,12 @@ function buildEditableGridCells(n: number): void
 
     const backgroundElement = <SVGGElement><HTMLOrSVGElement>document.getElementById("grid-cells");
 
-    console.log("Step = ", cellStep);
-
     grid = [];
     grid.length = n * n;
 
     for (let y = 0; y < n; ++y)
     {
         const offsetY = cellGapSize + (y * cellStep);
-        console.log(offsetY);
         for (let x = 0; x < n; ++x)
         {
             const offsetX = cellGapSize + (x * cellStep);
@@ -122,7 +123,75 @@ function buildEditableGridCells(n: number): void
     }
 }
 
-const N = 8;
+function tmpRuleSet(center: number, surround: number[]): number
+{
+    const numAlive = surround.reduce((total, cell) => total + (cell === 0 ? 0 : 1));
+
+    if (center === 0) //dead
+    {
+        if (numAlive === 3)
+        {
+            return 1;
+        }
+        return 0;
+    }
+
+    //alive
+    if (numAlive === 2 || numAlive === 3)
+    {
+        return 1;
+    }
+    return 0;
+
+}
+
+function step(n: number)
+{
+    let currentGrid: number[] = grid.map(element => Number(element.dataset.value));
+    let nextGrid: number[] = [];
+    nextGrid.length = n * n;
+
+    for (let y = 0; y < n; ++y)
+    {
+        for (let x = 0; x < n; ++x)
+        {
+            const center = currentGrid[ y * n + x ];
+            const surround = SURROUND_TEMPLATE.map(([ offsetX, offsetY ]) =>
+            {
+                const surroundX = x + offsetX;
+                const surroundY = y + offsetY;
+
+                if (
+                    surroundX < 0
+                    || surroundY < 0
+                    || surroundX >= n
+                    || surroundY >= n
+                )
+                {
+                    return 0;
+                }
+
+                return currentGrid[ surroundY * n + surroundX ];
+
+            });
+
+            nextGrid[ y * n + x ] = tmpRuleSet(center, surround);
+        }
+    }
+
+    for (let i = 0; i < n * n; ++i)
+    {
+        grid[ i ].dataset.value = String(nextGrid[ i ]);
+        grid[ i ].setAttribute("fill", colorMap[ nextGrid[ i ] ]);
+    }
+}
+
+const N = 20;
 
 buildGridBackground(N);
-buildEditableGridCells(N);
+buildGridCells(N);
+
+document.getElementById("step-button").addEventListener("click", () =>
+{
+    step(N);
+});
