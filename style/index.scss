@@ -1,5 +1,6 @@
 $color-dark: #070518;
 $color-light: #eeedb7;
+$color-light-alt: #9de5a3;
 
 html
 {
@@ -25,16 +26,66 @@ header
 
 main
 {
-    display: flex;
+    display: grid;
+
+    grid-template-areas: 
+    "cell viewport"
+    "step viewport";
+
+    grid-template-columns: 1fr 65%;
+    grid-template-rows: 1fr 10%;
 
     justify-content: center;
 
     padding-bottom: 100px;
 
+    #cell-controls
+    {
+        grid-area: cell;
+        background-color: red;
+    }
+
+    #step-controls
+    {
+        grid-area: step;
+
+        display: grid;
+        grid-template-areas: 
+        "speed start stop"
+        "step  step  step";
+
+        margin: 10% 10px;
+
+        #speed-input-container
+        {
+            grid-area: speed;
+        }
+
+        #start-stepping
+        {
+            grid-area: start;
+        }
+
+        #stop-stepping
+        {
+            grid-area: stop;
+        }
+
+        #step-once
+        {
+            grid-area: step;
+        }
+    }
+
     >svg
     {
-        width: 65%;
-        height: auto;
-        margin: 0 auto;
+        grid-area: viewport;
     }
+}
+
+h4
+{
+    text-decoration: underline;
+    font-size: 1.5rem;
+    color: $color-light-alt;
 }

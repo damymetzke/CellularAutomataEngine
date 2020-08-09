@@ -16,29 +16,46 @@
                 <option value="default" id="default-select-option">select ruleset...</option>
             </select>
             <section>
-                <h4>Ruleset Name</h4>
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis harum nihil expedita excepturi
-                    mollitia a, reprehenderit omnis possimus quasi eligendi est asperiores ullam magnam iusto id
-                    pariatur similique aliquid repudiandae?</p>
-                <p>Placeat vero tempore nesciunt, nulla repellendus ex tenetur sunt, asperiores obcaecati consequuntur
-                    est, et quas omnis culpa doloribus fugiat repudiandae saepe sit aperiam perspiciatis dolorum nihil
-                    debitis magnam officia. A!</p>
-                <p>Rem consectetur quia ab tempora temporibus at numquam hic saepe delectus maxime obcaecati impedit
-                    debitis enim vel quaerat quasi quos atque assumenda, fuga rerum odit? Adipisci porro in blanditiis
-                    enim.</p>
-                <p>Eligendi placeat, ab ipsa quidem alias consequuntur repudiandae quam explicabo sint maxime eaque.
-                    Dolore provident totam delectus, at veritatis iusto cupiditate ipsa veniam mollitia consequatur
-                    tempore? Aperiam eaque ab assumenda.</p>
-                <p>Doloribus natus cupiditate incidunt amet enim, molestiae totam corporis inventore, sit rerum dolor
-                    delectus sapiente tenetur eaque repudiandae consequatur maiores autem? Quas cupiditate dicta itaque
-                    accusantium quo pariatur repellat inventore.</p>
+                <h4 id="ruleset-title">Ruleset Name</h4>
+                <div id="ruleset-description">
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis harum nihil expedita excepturi
+                        mollitia a, reprehenderit omnis possimus quasi eligendi est asperiores ullam magnam iusto id
+                        pariatur similique aliquid repudiandae?</p>
+                    <p>Placeat vero tempore nesciunt, nulla repellendus ex tenetur sunt, asperiores obcaecati
+                        consequuntur
+                        est, et quas omnis culpa doloribus fugiat repudiandae saepe sit aperiam perspiciatis dolorum
+                        nihil
+                        debitis magnam officia. A!</p>
+                    <p>Rem consectetur quia ab tempora temporibus at numquam hic saepe delectus maxime obcaecati impedit
+                        debitis enim vel quaerat quasi quos atque assumenda, fuga rerum odit? Adipisci porro in
+                        blanditiis
+                        enim.</p>
+                    <p>Eligendi placeat, ab ipsa quidem alias consequuntur repudiandae quam explicabo sint maxime eaque.
+                        Dolore provident totam delectus, at veritatis iusto cupiditate ipsa veniam mollitia consequatur
+                        tempore? Aperiam eaque ab assumenda.</p>
+                    <p>Doloribus natus cupiditate incidunt amet enim, molestiae totam corporis inventore, sit rerum
+                        dolor
+                        delectus sapiente tenetur eaque repudiandae consequatur maiores autem? Quas cupiditate dicta
+                        itaque
+                        accusantium quo pariatur repellat inventore.</p>
+                </div>
             </section>
-
-            <button id="step-button">
-                step
-            </button>
         </header>
         <main>
+            <section id="cell-controls">
+
+            </section>
+
+            <section id="step-controls">
+                <div id="speed-input-container">
+                    <label for="speed">Steps per second</label>
+                    <input type="number" name="speed" id="speed-input">
+                </div>
+                <button id="start-stepping">start</button>
+                <button id="stop-stepping">stop</button>
+                <button id="step-once">step</button>
+            </section>
+
             <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 1 1">
                 <rect x="0" y="0" width="1" height="1" fill="#ebe993" />
                 <g id="grid-background">
