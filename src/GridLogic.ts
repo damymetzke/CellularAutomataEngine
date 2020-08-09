@@ -158,7 +158,7 @@ function tmpRuleSet(center: number, surround: number[]): number
 
 }
 
-export function step(n: number)
+export function step(n: number, ruleSet: RuleSet)
 {
     let currentGrid: number[] = grid.map(element => Number(element.dataset.value));
     let nextGrid: number[] = [];
@@ -188,7 +188,7 @@ export function step(n: number)
 
             });
 
-            nextGrid[ y * n + x ] = tmpRuleSet(center, surround);
+            nextGrid[ y * n + x ] = ruleSet.calculateStep(center, <any>surround);
         }
     }
 

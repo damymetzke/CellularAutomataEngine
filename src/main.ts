@@ -1,11 +1,13 @@
 import { init, step, setToCycle, setToSelected } from "./GridLogic.js";
 import { ConwayRuleSet } from "./Rulesets/Conway.js";
+import { WireWorldRuleSet } from "./Rulesets/WireWorld.js";
 import { RuleSet } from "./Rulesets/Ruleset.js";
 
 let timer: number = 0;
 
 const DEFAULT_SIZE = 20;
 let currentSize = DEFAULT_SIZE;
+let currentRuleSet = new WireWorldRuleSet();
 
 function setupCellControls(ruleSet: RuleSet)
 {
@@ -68,13 +70,13 @@ function SetupDescription(ruleSet: RuleSet)
     `;
 }
 
-setupCellControls(new ConwayRuleSet());
-SetupDescription(new ConwayRuleSet());
-init(DEFAULT_SIZE, new ConwayRuleSet());
+setupCellControls(currentRuleSet);
+SetupDescription(currentRuleSet);
+init(DEFAULT_SIZE, currentRuleSet);
 
 document.getElementById("step-once").addEventListener("click", () =>
 {
-    step(currentSize);
+    step(currentSize, currentRuleSet);
 });
 
 document.getElementById("start-stepping").addEventListener("click", () =>
@@ -86,7 +88,7 @@ document.getElementById("start-stepping").addEventListener("click", () =>
 
     timer = window.setInterval(() =>
     {
-        step(currentSize);
+        step(currentSize, currentRuleSet);
     }, 1000 / (<HTMLInputElement>document.getElementById("speed-input")).valueAsNumber);
 });
 
@@ -112,5 +114,5 @@ document.getElementById("set-size").addEventListener("click", () =>
     }
 
     currentSize = newSize;
-    init(newSize, new ConwayRuleSet());
+    init(newSize, currentRuleSet);
 });
