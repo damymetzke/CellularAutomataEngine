@@ -4,7 +4,8 @@ import { RuleSet } from "./Rulesets/Ruleset.js";
 
 let timer: number = 0;
 
-const N = 20;
+const DEFAULT_SIZE = 20;
+let currentSize = DEFAULT_SIZE;
 
 function setupCellControls(ruleSet: RuleSet)
 {
@@ -69,11 +70,11 @@ function SetupDescription(ruleSet: RuleSet)
 
 setupCellControls(new ConwayRuleSet());
 SetupDescription(new ConwayRuleSet());
-init(N, new ConwayRuleSet());
+init(DEFAULT_SIZE, new ConwayRuleSet());
 
 document.getElementById("step-once").addEventListener("click", () =>
 {
-    step(N);
+    step(currentSize);
 });
 
 document.getElementById("start-stepping").addEventListener("click", () =>
@@ -85,7 +86,7 @@ document.getElementById("start-stepping").addEventListener("click", () =>
 
     timer = window.setInterval(() =>
     {
-        step(N);
+        step(currentSize);
     }, 1000 / (<HTMLInputElement>document.getElementById("speed-input")).valueAsNumber);
 });
 
@@ -98,4 +99,18 @@ document.getElementById("stop-stepping").addEventListener("click", () =>
 
     window.clearInterval(timer);
     timer = 0;
+});
+
+document.getElementById("set-size").addEventListener("click", () =>
+{
+    const sizeElement = <HTMLInputElement>document.getElementById("size-input");
+    const newSize = sizeElement.valueAsNumber;
+
+    if (newSize <= 0)
+    {
+        return;
+    }
+
+    currentSize = newSize;
+    init(newSize, new ConwayRuleSet());
 });

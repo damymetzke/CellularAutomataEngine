@@ -90,7 +90,8 @@ export function buildGridCells(n: number): void
 
     const cellStep = cellGapSize + cellSize;
 
-    const backgroundElement = <SVGGElement><HTMLOrSVGElement>document.getElementById("grid-cells");
+    const cellElement = <SVGGElement><HTMLOrSVGElement>document.getElementById("grid-cells");
+    cellElement.innerHTML = "";
 
     grid = [];
     grid.length = n * n;
@@ -128,7 +129,7 @@ export function buildGridCells(n: number): void
                 }
             });
 
-            backgroundElement.appendChild(cell);
+            cellElement.appendChild(cell);
 
             grid[ y * n + x ] = cell;
         }
