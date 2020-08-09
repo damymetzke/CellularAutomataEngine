@@ -81,6 +81,12 @@ main
             {
                 padding-left: 30px;
             }
+
+            &#cell-control--active
+            {
+                border-color: $color-light-alt;
+                box-shadow: 0 0 2px 2px $color-light-alt;
+            }
         }
     }
 

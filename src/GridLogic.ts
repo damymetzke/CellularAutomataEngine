@@ -17,11 +17,23 @@ export enum EditMode
 }
 
 let editMode: EditMode = EditMode.CYCLE;
+let selectedCell: number = 0;
 let cycleMap: any = {};
 let colorMap: any = {};
 
 let grid: SVGRectElement[] = [];
 
+
+export function setToCycle()
+{
+    editMode = EditMode.CYCLE;
+}
+
+export function setToSelected(selected: number)
+{
+    editMode = EditMode.SELECTED;
+    selectedCell = selected;
+}
 
 export function buildGridBackground(n: number): void
 {
@@ -108,6 +120,10 @@ export function buildGridCells(n: number): void
                         const nextValue = cycleMap[ currentValue ];
                         cell.dataset.value = String(nextValue);
                         cell.setAttribute("fill", colorMap[ nextValue ]);
+                        break;
+                    case EditMode.SELECTED:
+                        cell.dataset.value = String(selectedCell);
+                        cell.setAttribute("fill", colorMap[ selectedCell ]);
                         break;
                 }
             });
