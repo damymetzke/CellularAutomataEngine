@@ -1,4 +1,4 @@
-import { RuleSet, CellType, SurroundArray } from "./Ruleset";
+import { RuleSet, CellType, SurroundArray } from "./Ruleset.js";
 
 export enum ConwayCell
 {
