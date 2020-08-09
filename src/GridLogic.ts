@@ -1,3 +1,5 @@
+import { RuleSet } from "./Rulesets/Ruleset.js";
+
 const CELL_GAP_RATIO: number = 0.05;
 
 const GAP_COLOR: string = "#544444";
@@ -15,14 +17,8 @@ export enum EditMode
 }
 
 let editMode: EditMode = EditMode.CYCLE;
-let cycleMap = {
-    0: 1,
-    1: 0
-};
-let colorMap = {
-    0: "#222222",
-    1: "#cccc44"
-};
+let cycleMap: any = {};
+let colorMap: any = {};
 
 let grid: SVGRectElement[] = [];
 
@@ -184,4 +180,18 @@ export function step(n: number)
         grid[ i ].dataset.value = String(nextGrid[ i ]);
         grid[ i ].setAttribute("fill", colorMap[ nextGrid[ i ] ]);
     }
+}
+
+export function init(n: number, ruleSet: RuleSet)
+{
+    colorMap = {};
+    cycleMap = {};
+    ruleSet.cells.forEach((cell, index) =>
+    {
+        colorMap[ cell.value ] = cell.color;
+        cycleMap[ cell.value ] = (index < ruleSet.cells.length - 1) ? ruleSet.cells[ index + 1 ].value : ruleSet.cells[ 0 ].value;
+    });
+
+    buildGridBackground(n);
+    buildGridCells(n);
 }

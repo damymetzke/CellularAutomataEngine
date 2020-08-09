@@ -1,9 +1,9 @@
-import { buildGridBackground, buildGridCells, step } from "./GridLogic.js";
+import { init, step } from "./GridLogic.js";
+import { ConwayRuleSet } from "./Rulesets/Conway.js";
 
 const N = 20;
 
-buildGridBackground(N);
-buildGridCells(N);
+init(N, new ConwayRuleSet());
 
 document.getElementById("step-button").addEventListener("click", () =>
 {
