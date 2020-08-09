@@ -1,10 +1,30 @@
 import { init, step } from "./GridLogic.js";
 import { ConwayRuleSet } from "./Rulesets/Conway.js";
+import { RuleSet } from "./Rulesets/Ruleset.js";
 
 let timer: number = 0;
 
 const N = 20;
 
+function setupCellControls(ruleSet: RuleSet)
+{
+    const controls = document.getElementById("cell-controls");
+    controls.innerHTML = "";
+
+    const cycleElement = document.createElement("li");
+    cycleElement.innerHTML = `<img src="./res/cycle.svg" alt="cycle cells"><span>Cycle</span>`;
+
+    controls.appendChild(cycleElement);
+
+    ruleSet.cells.forEach(({ tag, color }) =>
+    {
+        const cellElement = document.createElement("li");
+        cellElement.innerHTML = `<span style="background-color: ${color};"></span><span>${tag}</span>`;
+        controls.appendChild(cellElement);
+    });
+}
+
+setupCellControls(new ConwayRuleSet());
 init(N, new ConwayRuleSet());
 
 document.getElementById("step-once").addEventListener("click", () =>
