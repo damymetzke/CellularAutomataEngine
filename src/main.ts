@@ -6,8 +6,14 @@ import { RuleSet } from "./Rulesets/Ruleset.js";
 let timer: number = 0;
 
 const DEFAULT_SIZE = 20;
+
+const RULE_SETS = [
+    new ConwayRuleSet(),
+    new WireWorldRuleSet()
+];
+
 let currentSize = DEFAULT_SIZE;
-let currentRuleSet = new WireWorldRuleSet();
+let currentRuleSet = RULE_SETS[ 0 ];
 
 function setupCellControls(ruleSet: RuleSet)
 {
@@ -115,4 +121,23 @@ document.getElementById("set-size").addEventListener("click", () =>
 
     currentSize = newSize;
     init(newSize, currentRuleSet);
+});
+
+const ruleSetSelection = <HTMLSelectElement>document.getElementById("select-ruleset");
+
+RULE_SETS.forEach((ruleSet, index) =>
+{
+    const newRuleSetOption = document.createElement("option");
+    newRuleSetOption.value = String(index);
+    newRuleSetOption.innerText = ruleSet.name;
+
+    ruleSetSelection.appendChild(newRuleSetOption);
+});
+
+ruleSetSelection.addEventListener("change", () =>
+{
+    currentRuleSet = RULE_SETS[ ruleSetSelection.value ];
+    setupCellControls(currentRuleSet);
+    SetupDescription(currentRuleSet);
+    init(currentSize, currentRuleSet);
 });

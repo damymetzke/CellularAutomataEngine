@@ -203,6 +203,7 @@ export function init(n: number, ruleSet: RuleSet)
 {
     colorMap = {};
     cycleMap = {};
+    editMode = EditMode.CYCLE;
     ruleSet.cells.forEach((cell, index) =>
     {
         colorMap[ cell.value ] = cell.color;
