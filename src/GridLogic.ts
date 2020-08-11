@@ -4,12 +4,6 @@ const CELL_GAP_RATIO: number = 0.05;
 
 const GAP_COLOR: string = "#544444";
 
-const SURROUND_TEMPLATE = [
-    [ -1, -1 ], [ 0, -1 ], [ 1, -1 ],
-    [ -1, 0 ], [ 1, 0 ],
-    [ -1, 1 ], [ 0, 1 ], [ 1, 1 ]
-];
-
 export enum EditMode
 {
     CYCLE,
@@ -169,7 +163,7 @@ export function step(n: number, ruleSet: RuleSet)
         for (let x = 0; x < n; ++x)
         {
             const center = currentGrid[ y * n + x ];
-            const surround = SURROUND_TEMPLATE.map(([ offsetX, offsetY ]) =>
+            const surround = ruleSet.neighbors.map(([ offsetX, offsetY ]) =>
             {
                 const surroundX = x + offsetX;
                 const surroundY = y + offsetY;

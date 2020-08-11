@@ -1,4 +1,4 @@
-import { RuleSet, CellType, SurroundArray } from "./Ruleset.js";
+import { RuleSet, CellType, SurroundArray, NeighborTemplate, MOOR_NEIGBORS } from "./Ruleset.js";
 
 const CONWAY_DESCRIPTION = `
 <p>
@@ -74,4 +74,5 @@ export class ConwayRuleSet implements RuleSet
     ];
     name: string = "Conway's Game of Life";
     description: string = CONWAY_DESCRIPTION;
+    neighbors: NeighborTemplate = MOOR_NEIGBORS;
 }

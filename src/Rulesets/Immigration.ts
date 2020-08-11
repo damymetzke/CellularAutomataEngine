@@ -1,4 +1,4 @@
-import { RuleSet, CellType, SurroundArray } from "./Ruleset.js";
+import { RuleSet, CellType, SurroundArray, MOOR_NEIGBORS, NeighborTemplate } from "./Ruleset.js";
 
 const CONWAY_DESCRIPTION = `
 No description yet.
@@ -66,4 +66,5 @@ export class ImmigrationRuleSet implements RuleSet
     ];
     name: string = "Immigration";
     description: string = CONWAY_DESCRIPTION;
+    neighbors: NeighborTemplate = MOOR_NEIGBORS;
 }

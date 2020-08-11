@@ -1,4 +1,4 @@
-import { RuleSet, CellType, SurroundArray } from "./Ruleset.js";
+import { RuleSet, CellType, SurroundArray, MOOR_NEIGBORS, NeighborTemplate } from "./Ruleset.js";
 
 export enum SeedsCell
 {
@@ -39,5 +39,5 @@ export class SeedsRuleSet implements RuleSet
     ];
     name: string = "Seeds";
     description: string = "No description yet";
-
+    neighbors: NeighborTemplate = MOOR_NEIGBORS;
 }

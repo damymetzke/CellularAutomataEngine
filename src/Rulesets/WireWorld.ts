@@ -1,4 +1,4 @@
-import { RuleSet, CellType, SurroundArray } from "./Ruleset.js";
+import { RuleSet, CellType, SurroundArray, MOOR_NEIGBORS, NeighborTemplate } from "./Ruleset.js";
 
 export enum WireWorldCell
 {
@@ -55,5 +55,5 @@ export class WireWorldRuleSet implements RuleSet
     ];
     name: string = "Wire World";
     description: string = "No description yet";
-
+    neighbors: NeighborTemplate = MOOR_NEIGBORS;
 }

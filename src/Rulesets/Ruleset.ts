@@ -1,3 +1,5 @@
+export type NeighborTemplate = [ number, number ][];
+
 export type SurroundArray = [ number, number, number, number, number, number, number, number ];
 
 export type CellType =
@@ -7,10 +9,18 @@ export type CellType =
         color: string;
     };
 
+export const MOOR_NEIGBORS: NeighborTemplate = [
+    [ -1, -1 ], [ +0, -1 ], [ +1, -1 ],
+    [ -1, +0 ], /*center*/, [ +1, +0 ],
+    [ -1, +1 ], [ +0, +1 ], [ +1, +1 ]
+
+];
+
 export interface RuleSet
 {
     calculateStep(center: number, surround: SurroundArray): number;
     cells: CellType[];
     name: string;
     description: string;
+    neighbors: NeighborTemplate;
 }

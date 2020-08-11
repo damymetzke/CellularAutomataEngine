@@ -1,4 +1,4 @@
-import { RuleSet, CellType, SurroundArray } from "./Ruleset.js";
+import { RuleSet, CellType, SurroundArray, MOOR_NEIGBORS, NeighborTemplate } from "./Ruleset.js";
 
 export enum BriansBrainCell
 {
@@ -48,5 +48,5 @@ export class BriansBrainRuleSet implements RuleSet
     ];
     name: string = "Brian's Brain";
     description: string = "no description yet";
-
+    neighbors: NeighborTemplate = MOOR_NEIGBORS;
 }
