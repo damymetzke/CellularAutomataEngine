@@ -3,6 +3,7 @@ import { ConwayRuleSet } from "./Rulesets/Conway.js";
 import { WireWorldRuleSet } from "./Rulesets/WireWorld.js";
 import { RuleSet } from "./Rulesets/Ruleset.js";
 import { BriansBrainRuleSet } from "./Rulesets/BriansBrain.js";
+import { SeedsRuleSet } from "./Rulesets/Seeds.js";
 
 let timer: number = 0;
 
@@ -11,7 +12,8 @@ const DEFAULT_SIZE = 20;
 const RULE_SETS = [
     new ConwayRuleSet(),
     new WireWorldRuleSet(),
-    new BriansBrainRuleSet()
+    new BriansBrainRuleSet(),
+    new SeedsRuleSet()
 ];
 
 let currentSize = DEFAULT_SIZE;
