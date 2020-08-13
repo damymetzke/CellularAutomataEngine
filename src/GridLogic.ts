@@ -204,6 +204,6 @@ export function init(n: number, ruleSet: RuleSet)
         cycleMap[ cell.value ] = (index < ruleSet.cells.length - 1) ? ruleSet.cells[ index + 1 ].value : ruleSet.cells[ 0 ].value;
     });
 
-    buildGridBackground(n);
+    // buildGridBackground(n);
     buildGridCells(n);
 }
