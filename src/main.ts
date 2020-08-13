@@ -5,6 +5,7 @@ import { RuleSet } from "./Rulesets/Ruleset.js";
 import { BriansBrainRuleSet } from "./Rulesets/BriansBrain.js";
 import { SeedsRuleSet } from "./Rulesets/Seeds.js";
 import { ImmigrationRuleSet } from "./Rulesets/Immigration.js";
+import { SquareGridShape } from "./GridShape.js";
 
 let timer: number = 0;
 
@@ -20,6 +21,7 @@ const RULE_SETS = [
 
 let currentSize = DEFAULT_SIZE;
 let currentRuleSet = RULE_SETS[ 0 ];
+let currentShape = SquareGridShape.PLANE;
 
 function setupCellControls(ruleSet: RuleSet)
 {
@@ -84,7 +86,7 @@ function SetupDescription(ruleSet: RuleSet)
 
 setupCellControls(currentRuleSet);
 SetupDescription(currentRuleSet);
-init(DEFAULT_SIZE, currentRuleSet);
+init(DEFAULT_SIZE, currentRuleSet, SquareGridShape.PLANE);
 
 document.getElementById("step-once").addEventListener("click", () =>
 {
@@ -126,7 +128,7 @@ document.getElementById("set-size").addEventListener("click", () =>
     }
 
     currentSize = newSize;
-    init(newSize, currentRuleSet);
+    init(newSize, currentRuleSet, currentShape);
 });
 
 document.getElementById("copy-grid").addEventListener("click", () =>
@@ -161,5 +163,14 @@ ruleSetSelection.addEventListener("change", () =>
     currentRuleSet = RULE_SETS[ ruleSetSelection.value ];
     setupCellControls(currentRuleSet);
     SetupDescription(currentRuleSet);
-    init(currentSize, currentRuleSet);
+    init(currentSize, currentRuleSet, currentShape);
+});
+
+const shapeSelection = <HTMLSelectElement>document.getElementById("select-shape");
+
+shapeSelection.addEventListener("change", () =>
+{
+    currentShape = <SquareGridShape>(Number(shapeSelection.value));
+    console.log(currentShape);
+    init(currentSize, currentRuleSet, currentShape);
 });

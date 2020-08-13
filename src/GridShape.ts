@@ -7,9 +7,9 @@ export enum TileShape
 
 export enum SquareGridShape
 {
-    PLANE,
-    STRIP,
-    TORUS
+    PLANE = 0,
+    STRIP = 1,
+    TORUS = 2
 }
 
 export type GridShape = {

@@ -37,8 +37,9 @@ let colorMap: any = {};
 
 let grid: SVGRectElement[] = [];
 
-let currentSize = 20;
-let currentRuleSet = null;
+let currentSize: number = 20;
+let currentRuleSet: RuleSet = null;
+let currentShape: SquareGridShape = SquareGridShape.PLANE;
 
 
 export function setToCycle()
@@ -150,7 +151,7 @@ export function step()
     let nextGrid: number[] = [];
     nextGrid.length = currentSize * currentSize;
 
-    const [ overFlowRuleY, overFlowRuleX ] = SHAPE_MAP[ SquareGridShape.TORUS ];
+    const [ overFlowRuleY, overFlowRuleX ] = SHAPE_MAP[ currentShape ];
 
     for (let y = 0; y < currentSize; ++y)
     {
@@ -182,10 +183,11 @@ export function step()
     }
 }
 
-export function init(n: number, ruleSet: RuleSet)
+export function init(n: number, ruleSet: RuleSet, shape: SquareGridShape)
 {
     currentSize = n;
     currentRuleSet = ruleSet;
+    currentShape = shape;
     colorMap = {};
     cycleMap = {};
     editMode = EditMode.CYCLE;
@@ -204,17 +206,19 @@ export function serialize(): string
     return JSON.stringify({
         name: currentRuleSet.name,
         gridSize: currentSize,
+        shape: currentShape,
         states: grid.map(cell => cell.dataset.value)
     });
 }
 
 export function deserialize(rawJson: string): void
 {
-    const { name, gridSize, states } = JSON.parse(rawJson);
+    const { name, gridSize, shape, states } = JSON.parse(rawJson);
 
     if (
         name === undefined
         || gridSize === undefined
+        || shape === undefined
         || states === undefined
     )
     {
@@ -224,7 +228,7 @@ export function deserialize(rawJson: string): void
         return;
     }
 
-    init(gridSize, RULESET_MAP[ name ]);
+    init(gridSize, RULESET_MAP[ name ], shape);
 
     grid.forEach((cell, index) =>
     {
