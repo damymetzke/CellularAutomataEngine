@@ -7,6 +7,7 @@ import { SeedsRuleSet } from "./Rulesets/Seeds.js";
 import { ImmigrationRuleSet } from "./Rulesets/Immigration.js";
 import { SquareGridShape } from "./GridShape.js";
 import { MazeRuleSet } from "./Rulesets/Maze.js";
+import { MazectricRuleSet } from "./Rulesets/Mazectric.js";
 
 let timer: number = 0;
 
@@ -18,7 +19,8 @@ const RULE_SETS = [
     new WireWorldRuleSet(),
     new BriansBrainRuleSet(),
     new SeedsRuleSet(),
-    new MazeRuleSet()
+    new MazeRuleSet(),
+    new MazectricRuleSet()
 ];
 
 let currentSize = DEFAULT_SIZE;
