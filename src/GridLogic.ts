@@ -1,8 +1,27 @@
 import { RuleSet } from "./Rulesets/Ruleset.js";
+import { ConwayRuleSet } from "./Rulesets/Conway.js";
+import { ImmigrationRuleSet } from "./Rulesets/Immigration.js";
+import { WireWorldRuleSet } from "./Rulesets/WireWorld.js";
+import { BriansBrainRuleSet } from "./Rulesets/BriansBrain.js";
+import { SeedsRuleSet } from "./Rulesets/Seeds.js";
 
 const CELL_GAP_RATIO: number = 0.05;
 
-const GAP_COLOR: string = "#544444";
+const RULESET_MAP = (() =>
+{
+    let result = {};
+    [
+        new ConwayRuleSet(),
+        new ImmigrationRuleSet(),
+        new WireWorldRuleSet(),
+        new BriansBrainRuleSet(),
+        new SeedsRuleSet()
+    ].forEach((ruleSet) =>
+    {
+        result[ ruleSet.name ] = ruleSet;
+    });
+    return result;
+})();
 
 export enum EditMode
 {
@@ -17,6 +36,9 @@ let colorMap: any = {};
 
 let grid: SVGRectElement[] = [];
 
+let currentSize = 20;
+let currentRuleSet = null;
+
 
 export function setToCycle()
 {
@@ -29,7 +51,7 @@ export function setToSelected(selected: number)
     selectedCell = selected;
 }
 
-export function buildGridBackground(n: number): void
+export function buildGridCells(): void
 {
     /*
      * ALGORITHM:
@@ -38,47 +60,7 @@ export function buildGridBackground(n: number): void
      * * GAP_SIZE = GAP_RATIO * CELL_SIZE
      * * (n * CELLSIZE) + ((n+1) * GAP_SIZE) = 1 
      */
-    const cellGapSize = CELL_GAP_RATIO / (n * CELL_GAP_RATIO + n + CELL_GAP_RATIO);
-
-    const cellGapStep = (1 / n) * (1 - cellGapSize);
-
-    const backgroundElement = <SVGGElement><HTMLOrSVGElement>document.getElementById("grid-background");
-
-    backgroundElement.innerHTML = "";
-
-    for (let i = 0; i < n + 1; ++i)
-    {
-        const offset = i * cellGapStep;
-
-        const horizontalLine = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-        horizontalLine.setAttribute("x", "0");
-        horizontalLine.setAttribute("y", String(offset));
-        horizontalLine.setAttribute("width", "1");
-        horizontalLine.setAttribute("height", String(cellGapSize));
-        horizontalLine.setAttribute("fill", GAP_COLOR);
-
-        const verticalLine = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-        verticalLine.setAttribute("y", "0");
-        verticalLine.setAttribute("x", String(offset));
-        verticalLine.setAttribute("height", "1");
-        verticalLine.setAttribute("width", String(cellGapSize));
-        verticalLine.setAttribute("fill", GAP_COLOR);
-
-        backgroundElement.appendChild(horizontalLine);
-        backgroundElement.appendChild(verticalLine);
-    }
-}
-
-export function buildGridCells(n: number): void
-{
-    /*
-     * ALGORITHM:
-     * calculates the cell gap size such that CELL_SIZE * CELL_GAP_RATIO = GAP_SIZE
-     * derived from the following 2 formulas:
-     * * GAP_SIZE = GAP_RATIO * CELL_SIZE
-     * * (n * CELLSIZE) + ((n+1) * GAP_SIZE) = 1 
-     */
-    const cellGapSize = CELL_GAP_RATIO / (n * CELL_GAP_RATIO + n + CELL_GAP_RATIO);
+    const cellGapSize = CELL_GAP_RATIO / (currentSize * CELL_GAP_RATIO + currentSize + CELL_GAP_RATIO);
 
     const cellSize = cellGapSize / CELL_GAP_RATIO;
 
@@ -88,12 +70,12 @@ export function buildGridCells(n: number): void
     cellElement.innerHTML = "";
 
     grid = [];
-    grid.length = n * n;
+    grid.length = currentSize * currentSize;
 
-    for (let y = 0; y < n; ++y)
+    for (let y = 0; y < currentSize; ++y)
     {
         const offsetY = cellGapSize + (y * cellStep);
-        for (let x = 0; x < n; ++x)
+        for (let x = 0; x < currentSize; ++x)
         {
             const offsetX = cellGapSize + (x * cellStep);
 
@@ -125,45 +107,23 @@ export function buildGridCells(n: number): void
 
             cellElement.appendChild(cell);
 
-            grid[ y * n + x ] = cell;
+            grid[ y * currentSize + x ] = cell;
         }
     }
 }
 
-function tmpRuleSet(center: number, surround: number[]): number
-{
-    const numAlive = surround.reduce((total, cell) => total + (cell === 0 ? 0 : 1));
-
-    if (center === 0) //dead
-    {
-        if (numAlive === 3)
-        {
-            return 1;
-        }
-        return 0;
-    }
-
-    //alive
-    if (numAlive === 2 || numAlive === 3)
-    {
-        return 1;
-    }
-    return 0;
-
-}
-
-export function step(n: number, ruleSet: RuleSet)
+export function step()
 {
     let currentGrid: number[] = grid.map(element => Number(element.dataset.value));
     let nextGrid: number[] = [];
-    nextGrid.length = n * n;
+    nextGrid.length = currentSize * currentSize;
 
-    for (let y = 0; y < n; ++y)
+    for (let y = 0; y < currentSize; ++y)
     {
-        for (let x = 0; x < n; ++x)
+        for (let x = 0; x < currentSize; ++x)
         {
-            const center = currentGrid[ y * n + x ];
-            const surround = ruleSet.neighbors.map(([ offsetX, offsetY ]) =>
+            const center = currentGrid[ y * currentSize + x ];
+            const surround = currentRuleSet.neighbors.map(([ offsetX, offsetY ]) =>
             {
                 const surroundX = x + offsetX;
                 const surroundY = y + offsetY;
@@ -171,22 +131,22 @@ export function step(n: number, ruleSet: RuleSet)
                 if (
                     surroundX < 0
                     || surroundY < 0
-                    || surroundX >= n
-                    || surroundY >= n
+                    || surroundX >= currentSize
+                    || surroundY >= currentSize
                 )
                 {
                     return 0;
                 }
 
-                return currentGrid[ surroundY * n + surroundX ];
+                return currentGrid[ surroundY * currentSize + surroundX ];
 
             });
 
-            nextGrid[ y * n + x ] = ruleSet.calculateStep(center, <any>surround);
+            nextGrid[ y * currentSize + x ] = currentRuleSet.calculateStep(center, <any>surround);
         }
     }
 
-    for (let i = 0; i < n * n; ++i)
+    for (let i = 0; i < currentSize * currentSize; ++i)
     {
         grid[ i ].dataset.value = String(nextGrid[ i ]);
         grid[ i ].setAttribute("fill", colorMap[ nextGrid[ i ] ]);
@@ -195,6 +155,8 @@ export function step(n: number, ruleSet: RuleSet)
 
 export function init(n: number, ruleSet: RuleSet)
 {
+    currentSize = n;
+    currentRuleSet = ruleSet;
     colorMap = {};
     cycleMap = {};
     editMode = EditMode.CYCLE;
@@ -205,5 +167,39 @@ export function init(n: number, ruleSet: RuleSet)
     });
 
     // buildGridBackground(n);
-    buildGridCells(n);
+    buildGridCells();
+}
+
+export function serialize(): string
+{
+    return JSON.stringify({
+        name: currentRuleSet.name,
+        gridSize: currentSize,
+        states: grid.map(cell => cell.dataset.value)
+    });
+}
+
+export function deserialize(rawJson: string): void
+{
+    const { name, gridSize, states } = JSON.parse(rawJson);
+
+    if (
+        name === undefined
+        || gridSize === undefined
+        || states === undefined
+    )
+    {
+        const errorString = "Could not deserialized JSON, expected the following keys in JSON data:\n\tname\n\tgridSize\n\tstates";
+        console.error(errorString);
+        alert(errorString);
+        return;
+    }
+
+    init(gridSize, RULESET_MAP[ name ]);
+
+    grid.forEach((cell, index) =>
+    {
+        cell.dataset.value = states[ index ];
+        cell.setAttribute("fill", colorMap[ states[ index ] ]);
+    });
 }

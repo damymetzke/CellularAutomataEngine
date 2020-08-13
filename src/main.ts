@@ -1,4 +1,4 @@
-import { init, step, setToCycle, setToSelected } from "./GridLogic.js";
+import { init, step, setToCycle, setToSelected, serialize, deserialize } from "./GridLogic.js";
 import { ConwayRuleSet } from "./Rulesets/Conway.js";
 import { WireWorldRuleSet } from "./Rulesets/WireWorld.js";
 import { RuleSet } from "./Rulesets/Ruleset.js";
@@ -88,7 +88,7 @@ init(DEFAULT_SIZE, currentRuleSet);
 
 document.getElementById("step-once").addEventListener("click", () =>
 {
-    step(currentSize, currentRuleSet);
+    step();
 });
 
 document.getElementById("start-stepping").addEventListener("click", () =>
@@ -100,7 +100,7 @@ document.getElementById("start-stepping").addEventListener("click", () =>
 
     timer = window.setInterval(() =>
     {
-        step(currentSize, currentRuleSet);
+        step();
     }, 1000 / (<HTMLInputElement>document.getElementById("speed-input")).valueAsNumber);
 });
 
@@ -127,6 +127,22 @@ document.getElementById("set-size").addEventListener("click", () =>
 
     currentSize = newSize;
     init(newSize, currentRuleSet);
+});
+
+document.getElementById("copy-grid").addEventListener("click", () =>
+{
+    const copySource = <HTMLTextAreaElement>document.getElementById("port-field");
+    copySource.value = serialize();
+
+    copySource.select();
+    document.execCommand("copy");
+});
+
+document.getElementById("paste-grid").addEventListener("click", () =>
+{
+    const pasteTarget = <HTMLTextAreaElement>document.getElementById("port-field");
+
+    deserialize(pasteTarget.value);
 });
 
 const ruleSetSelection = <HTMLSelectElement>document.getElementById("select-ruleset");
