@@ -5,6 +5,7 @@ import { WireWorldRuleSet } from "./Rulesets/WireWorld.js";
 import { BriansBrainRuleSet } from "./Rulesets/BriansBrain.js";
 import { SeedsRuleSet } from "./Rulesets/Seeds.js";
 import { SquareGridShape } from "./GridShape.js";
+import { MazeRuleSet } from "./Rulesets/Maze.js";
 
 const CELL_GAP_RATIO: number = 0.05;
 
@@ -16,7 +17,8 @@ const RULESET_MAP = (() =>
         new ImmigrationRuleSet(),
         new WireWorldRuleSet(),
         new BriansBrainRuleSet(),
-        new SeedsRuleSet()
+        new SeedsRuleSet(),
+        new MazeRuleSet()
     ].forEach((ruleSet) =>
     {
         result[ ruleSet.name ] = ruleSet;
