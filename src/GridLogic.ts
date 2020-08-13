@@ -4,6 +4,7 @@ import { ImmigrationRuleSet } from "./Rulesets/Immigration.js";
 import { WireWorldRuleSet } from "./Rulesets/WireWorld.js";
 import { BriansBrainRuleSet } from "./Rulesets/BriansBrain.js";
 import { SeedsRuleSet } from "./Rulesets/Seeds.js";
+import { SquareGridShape } from "./GridShape.js";
 
 const CELL_GAP_RATIO: number = 0.05;
 
@@ -112,11 +113,44 @@ export function buildGridCells(): void
     }
 }
 
+function overFlowRuleWrap(size: number, position: number): number
+{
+    if (position < 0)
+    {
+        return size + position;
+    }
+    if (position >= size)
+    {
+
+        return position - size;
+    }
+
+    return position;
+}
+
+function overFlowRuleNull(size: number, position: number): number
+{
+    if (position < 0 || position >= size)
+    {
+        return null;
+    }
+
+    return position;
+}
+
+const SHAPE_MAP = {
+    [ SquareGridShape.PLANE ]: [ overFlowRuleNull, overFlowRuleNull ],
+    [ SquareGridShape.STRIP ]: [ overFlowRuleNull, overFlowRuleWrap ],
+    [ SquareGridShape.TORUS ]: [ overFlowRuleWrap, overFlowRuleWrap ]
+};
+
 export function step()
 {
     let currentGrid: number[] = grid.map(element => Number(element.dataset.value));
     let nextGrid: number[] = [];
     nextGrid.length = currentSize * currentSize;
+
+    const [ overFlowRuleY, overFlowRuleX ] = SHAPE_MAP[ SquareGridShape.TORUS ];
 
     for (let y = 0; y < currentSize; ++y)
     {
@@ -125,15 +159,10 @@ export function step()
             const center = currentGrid[ y * currentSize + x ];
             const surround = currentRuleSet.neighbors.map(([ offsetX, offsetY ]) =>
             {
-                const surroundX = x + offsetX;
-                const surroundY = y + offsetY;
+                const surroundX = overFlowRuleX(currentSize, x + offsetX);
+                const surroundY = overFlowRuleY(currentSize, y + offsetY);
 
-                if (
-                    surroundX < 0
-                    || surroundY < 0
-                    || surroundX >= currentSize
-                    || surroundY >= currentSize
-                )
+                if (surroundX === null || surroundY === null)
                 {
                     return 0;
                 }
