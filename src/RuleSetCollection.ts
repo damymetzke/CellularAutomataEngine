@@ -16,3 +16,13 @@ export const RULE_SETS: RuleSet[] = [
     new MazeRuleSet(),
     new MazectricRuleSet()
 ];
+
+export const RULESET_MAP = (() =>
+{
+    let result = {};
+    RULE_SETS.forEach((ruleSet) =>
+    {
+        result[ ruleSet.categorization ] = ruleSet;
+    });
+    return result;
+})();

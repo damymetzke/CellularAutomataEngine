@@ -1,4 +1,7 @@
-import { RuleSet } from "./Ruleset";
+import { RuleSet } from "./Ruleset.js";
+import { init } from "./GridLogic.js";
+import { RULESET_MAP } from "./RuleSetCollection.js";
+import { SquareGridShape } from "./GridShape.js";
 
 type PageData = {
     subCategories: Set<string>;
@@ -113,9 +116,27 @@ function buildSubCategories(root: string, page: PageData)
     });
 }
 
-function buildRulesets(page: PageData)
+function buildRulesets(root: string, page: PageData)
 {
+    const items = Array.from(page.rulesets).sort();
 
+    items.forEach(item =>
+    {
+        const newElement = document.createElement("li");
+        newElement.classList.add("ruleset");
+
+        const fullCategory = !root ? item : `${root}.${item}`;
+        const currentRuleset = RULESET_MAP[ fullCategory ];
+
+        newElement.innerHTML = currentRuleset.name;
+
+        newElement.addEventListener("click", () =>
+        {
+            init(20, currentRuleset, SquareGridShape.PLANE);
+        });
+
+        NAVIGATION_LIST.appendChild(newElement);
+    });
 }
 
 function displayPage(category: string)
@@ -131,5 +152,5 @@ function displayPage(category: string)
     buildCategoryTree(category);
     const currentPage = pages[ category ];
     buildSubCategories(category, currentPage);
-    buildRulesets(currentPage);
+    buildRulesets(category, currentPage);
 }

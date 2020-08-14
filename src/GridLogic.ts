@@ -1,18 +1,8 @@
 import { RuleSet } from "./Ruleset.js";
 import { SquareGridShape } from "./GridShape.js";
-import { RULE_SETS } from "./RuleSetCollection.js";
+import { RULESET_MAP } from "./RuleSetCollection.js";
 
 const CELL_GAP_RATIO: number = 0.05;
-
-const RULESET_MAP = (() =>
-{
-    let result = {};
-    RULE_SETS.forEach((ruleSet) =>
-    {
-        result[ ruleSet.categorization ] = ruleSet;
-    });
-    return result;
-})();
 
 export enum EditMode
 {
