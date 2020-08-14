@@ -44,6 +44,7 @@ export class MazeRuleSet implements RuleSet
             color: "#22aa22"
         }
     ];
+    categorization: string = "popular.maze";
     name: string = "Maze";
     description: string = CONWAY_DESCRIPTION;
     neighbors: NeighborTemplate = MOOR_NEIGBORS;

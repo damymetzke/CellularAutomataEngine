@@ -44,6 +44,7 @@ export class MazectricRuleSet implements RuleSet
             color: "#22aa22"
         }
     ];
+    categorization: string = "popular.mazectric";
     name: string = "Mazectric";
     description: string = CONWAY_DESCRIPTION;
     neighbors: NeighborTemplate = MOOR_NEIGBORS;

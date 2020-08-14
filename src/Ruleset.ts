@@ -26,6 +26,7 @@ export interface RuleSet
 {
     calculateStep(center: number, surround: SurroundArray): number;
     cells: CellType[];
+    categorization: string;
     name: string;
     description: string;
     neighbors: NeighborTemplate;

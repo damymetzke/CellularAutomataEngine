@@ -9,7 +9,7 @@ const RULESET_MAP = (() =>
     let result = {};
     RULE_SETS.forEach((ruleSet) =>
     {
-        result[ ruleSet.name ] = ruleSet;
+        result[ ruleSet.categorization ] = ruleSet;
     });
     return result;
 })();
@@ -194,7 +194,7 @@ export function init(n: number, ruleSet: RuleSet, shape: SquareGridShape)
 export function serialize(): string
 {
     return JSON.stringify({
-        name: currentRuleSet.name,
+        category: currentRuleSet.categorization,
         gridSize: currentSize,
         shape: currentShape,
         states: grid.map(cell => cell.dataset.value)
@@ -203,10 +203,10 @@ export function serialize(): string
 
 export function deserialize(rawJson: string): void
 {
-    const { name, gridSize, shape, states } = JSON.parse(rawJson);
+    const { category, gridSize, shape, states } = JSON.parse(rawJson);
 
     if (
-        name === undefined
+        category === undefined
         || gridSize === undefined
         || shape === undefined
         || states === undefined
@@ -218,7 +218,7 @@ export function deserialize(rawJson: string): void
         return;
     }
 
-    init(gridSize, RULESET_MAP[ name ], shape);
+    init(gridSize, RULESET_MAP[ category ], shape);
 
     grid.forEach((cell, index) =>
     {

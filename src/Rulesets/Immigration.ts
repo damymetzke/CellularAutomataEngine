@@ -64,6 +64,7 @@ export class ImmigrationRuleSet implements RuleSet
             color: "#4444cc"
         }
     ];
+    categorization: string = "popular.immigration";
     name: string = "Immigration";
     description: string = CONWAY_DESCRIPTION;
     neighbors: NeighborTemplate = MOOR_NEIGBORS;

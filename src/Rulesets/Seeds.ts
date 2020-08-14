@@ -37,6 +37,7 @@ export class SeedsRuleSet implements RuleSet
             color: "#44cc44"
         }
     ];
+    categorization: string = "popular.seeds";
     name: string = "Seeds";
     description: string = "No description yet";
     neighbors: NeighborTemplate = MOOR_NEIGBORS;

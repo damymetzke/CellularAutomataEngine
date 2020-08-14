@@ -53,6 +53,7 @@ export class WireWorldRuleSet implements RuleSet
             color: "#cccc44"
         }
     ];
+    categorization: string = "popular.wireworld";
     name: string = "Wire World";
     description: string = "No description yet";
     neighbors: NeighborTemplate = MOOR_NEIGBORS;

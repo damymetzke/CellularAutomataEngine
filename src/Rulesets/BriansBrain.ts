@@ -46,6 +46,7 @@ export class BriansBrainRuleSet implements RuleSet
             color: "#cc4444"
         }
     ];
+    categorization: string = "popular.brian";
     name: string = "Brian's Brain";
     description: string = "no description yet";
     neighbors: NeighborTemplate = MOOR_NEIGBORS;
