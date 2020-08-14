@@ -72,7 +72,7 @@ export class ConwayRuleSet implements RuleSet
             color: "#cccc44"
         }
     ];
-    categorization: string = "popular.conway";
+    categorization: string = "popular.conway.original";
     name: string = "Conway's Game of Life";
     description: string = CONWAY_DESCRIPTION;
     neighbors: NeighborTemplate = MOOR_NEIGBORS;

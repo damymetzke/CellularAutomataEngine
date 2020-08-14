@@ -2,6 +2,7 @@ import { init, step, setToCycle, setToSelected, serialize, deserialize } from ".
 import { RuleSet } from "./Ruleset.js";
 import { SquareGridShape } from "./GridShape.js";
 import { RULE_SETS } from "./RuleSetCollection.js";
+import { loadPages } from "./RulesetSelectionLogic.js";
 
 let timer: number = 0;
 
@@ -162,3 +163,5 @@ shapeSelection.addEventListener("change", () =>
     console.log(currentShape);
     init(currentSize, currentRuleSet, currentShape);
 });
+
+loadPages(RULE_SETS);
