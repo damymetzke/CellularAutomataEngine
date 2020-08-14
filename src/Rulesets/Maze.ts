@@ -1,4 +1,4 @@
-import { RuleSet, CellType, SurroundArray, NeighborTemplate, MOOR_NEIGBORS } from "./Ruleset.js";
+import { RuleSet, CellType, SurroundArray, NeighborTemplate, MOOR_NEIGBORS } from "../Ruleset.js";
 
 const CONWAY_DESCRIPTION = `
 no description yet...

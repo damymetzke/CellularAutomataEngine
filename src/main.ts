@@ -1,5 +1,5 @@
 import { init, step, setToCycle, setToSelected, serialize, deserialize } from "./GridLogic.js";
-import { RuleSet } from "./Rulesets/Ruleset.js";
+import { RuleSet } from "./Ruleset.js";
 import { SquareGridShape } from "./GridShape.js";
 import { RULE_SETS } from "./RuleSetCollection.js";
 

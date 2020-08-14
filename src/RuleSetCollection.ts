@@ -1,4 +1,4 @@
-import { RuleSet } from "./Rulesets/Ruleset.js";
+import { RuleSet } from "./Ruleset.js";
 import { ConwayRuleSet } from "./Rulesets/Conway.js";
 import { ImmigrationRuleSet } from "./Rulesets/Immigration.js";
 import { WireWorldRuleSet } from "./Rulesets/WireWorld.js";
