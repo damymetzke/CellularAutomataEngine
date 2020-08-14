@@ -65,7 +65,7 @@ export function loadPages(rulesets: RuleSet[])
         }
     });
 
-    displayPage("popular.conway");
+    displayPage("");
 }
 
 function buildCategoryTree(category: string)
@@ -89,9 +89,28 @@ function buildCategoryTree(category: string)
     });
 }
 
-function buildSubCategories(page: PageData)
+function buildSubCategories(root: string, page: PageData)
 {
+    const items = Array.from(page.subCategories).sort();
 
+    items.forEach(item =>
+    {
+        const newElement = document.createElement("li");
+        newElement.classList.add("category");
+        newElement.innerHTML = item;
+
+        newElement.addEventListener("click", () =>
+        {
+            if (!root)
+            {
+                displayPage(item);
+                return;
+            }
+            displayPage(`${root}.${item}`);
+        });
+
+        NAVIGATION_LIST.appendChild(newElement);
+    });
 }
 
 function buildRulesets(page: PageData)
@@ -111,6 +130,6 @@ function displayPage(category: string)
 
     buildCategoryTree(category);
     const currentPage = pages[ category ];
-    buildSubCategories(currentPage);
+    buildSubCategories(category, currentPage);
     buildRulesets(currentPage);
 }
