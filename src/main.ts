@@ -136,6 +136,16 @@ document.getElementById("paste-grid").addEventListener("click", () =>
     deserialize(pasteTarget.value);
 });
 
+document.getElementById("select-ruleset-alt").addEventListener("click", () =>
+{
+    document.getElementById("ruleset-select-window").classList.add("visible");
+});
+
+document.getElementById("ruleset-select-window--exit").addEventListener("click", () =>
+{
+    document.getElementById("ruleset-select-window").classList.remove("visible");
+});
+
 const ruleSetSelection = <HTMLSelectElement>document.getElementById("select-ruleset");
 
 RULE_SETS.forEach((ruleSet, index) =>

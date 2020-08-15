@@ -14,6 +14,7 @@
             <h3>Cellular Automata Engine</h3>
             <select name="Ruleset" id="select-ruleset">
             </select>
+            <button id="select-ruleset-alt">Select Ruleset</button>
             <select name="Shape" id="select-shape">
                 <option value="0">Plane</option>
                 <option value="1">Strip</option>
@@ -52,7 +53,7 @@
         <button id="paste-grid">Paste Grid</button>
         <textarea name="field" id="port-field" cols="30" rows="10"></textarea>
 
-        <div id="ruleset-select-window" class="visible">
+        <div id="ruleset-select-window">
             <h3>Select Ruleset</h3>
             <p id="ruleset-select-window--category-tree"><span>a</span> / <span>b</span> / <span>c</span> </p>
             <ul id="ruleset-select-window--list">
@@ -61,6 +62,7 @@
                 <li class="ruleset">Conway's Game of life</li>
                 <li class="ruleset">seeds</li>
             </ul>
+            <button id="ruleset-select-window--exit">Exit</button>
         </div>
     </body>
 
