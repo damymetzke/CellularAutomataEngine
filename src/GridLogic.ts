@@ -33,7 +33,7 @@ export function setToSelected(selected: number)
     selectedCell = selected;
 }
 
-export function buildGridCells(): void
+export function buildGridCellsSmall(): void
 {
     /*
      * ALGORITHM:
@@ -92,6 +92,65 @@ export function buildGridCells(): void
             grid[ y * currentSize + x ] = cell;
         }
     }
+}
+
+function buildGridCellsBig(): void
+{
+    const cellSize = 1 / currentSize;
+
+    let offsetY = 0;
+
+    const cellElement = <SVGGElement><HTMLOrSVGElement>document.getElementById("grid-cells");
+    cellElement.innerHTML = "";
+
+    for (let y = 0; y < currentSize; ++y)
+    {
+        let offsetX = 0;
+        for (let x = 0; x < currentSize; ++x)
+        {
+            const cell = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            cell.setAttribute("x", String(offsetX));
+            cell.setAttribute("y", String(offsetY));
+            cell.setAttribute("width", String(1.05 * cellSize));
+            cell.setAttribute("height", String(1.05 * cellSize));
+            cell.setAttribute("fill", colorMap[ 0 ]);
+
+            cell.dataset.value = "0";
+
+            cell.addEventListener("click", () =>
+            {
+                switch (editMode)
+                {
+                    case EditMode.CYCLE:
+                        const currentValue = Number(cell.dataset.value);
+                        const nextValue = cycleMap[ currentValue ];
+                        cell.dataset.value = String(nextValue);
+                        cell.setAttribute("fill", colorMap[ nextValue ]);
+                        break;
+                    case EditMode.SELECTED:
+                        cell.dataset.value = String(selectedCell);
+                        cell.setAttribute("fill", colorMap[ selectedCell ]);
+                        break;
+                }
+            });
+
+            cellElement.appendChild(cell);
+
+            offsetX += cellSize;
+        }
+        offsetY += cellSize;
+    }
+}
+
+function buildGridCells(): void
+{
+    if (currentSize <= 50)
+    {
+        buildGridCellsSmall();
+        return;
+    }
+
+    buildGridCellsBig();
 }
 
 function overFlowRuleWrap(size: number, position: number): number
