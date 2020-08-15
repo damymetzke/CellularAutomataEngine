@@ -2,6 +2,7 @@ import { RuleSet } from "./Ruleset.js";
 import { init } from "./GridLogic.js";
 import { RULESET_MAP } from "./RuleSetCollection.js";
 import { SquareGridShape } from "./GridShape.js";
+import { setupUi } from "./UiController.js";
 
 type PageData = {
     subCategories: Set<string>;
@@ -132,7 +133,9 @@ function buildRulesets(root: string, page: PageData)
 
         newElement.addEventListener("click", () =>
         {
+            setupUi(currentRuleset);
             init(20, currentRuleset, SquareGridShape.PLANE);
+            document.getElementById("ruleset-select-window").classList.remove("visible");
         });
 
         NAVIGATION_LIST.appendChild(newElement);

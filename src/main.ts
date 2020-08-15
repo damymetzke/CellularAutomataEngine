@@ -1,8 +1,8 @@
-import { init, step, setToCycle, setToSelected, serialize, deserialize } from "./GridLogic.js";
-import { RuleSet } from "./Ruleset.js";
+import { init, step, serialize, deserialize } from "./GridLogic.js";
 import { SquareGridShape } from "./GridShape.js";
 import { RULE_SETS } from "./RuleSetCollection.js";
 import { loadPages } from "./RulesetSelectionLogic.js";
+import { setupUi } from "./UiController.js";
 
 let timer: number = 0;
 
@@ -12,69 +12,7 @@ let currentSize = DEFAULT_SIZE;
 let currentRuleSet = RULE_SETS[ 0 ];
 let currentShape = SquareGridShape.PLANE;
 
-function setupCellControls(ruleSet: RuleSet)
-{
-    const controls = document.getElementById("cell-controls");
-    controls.innerHTML = "";
-
-    const cycleElement = document.createElement("li");
-    cycleElement.innerHTML = `<img src="./res/cycle.svg" alt="cycle cells"><span>Cycle</span>`;
-    cycleElement.id = "cell-control--active";
-    cycleElement.addEventListener("click", () =>
-    {
-        const previousActive = document.getElementById("cell-control--active");
-        if (previousActive === cycleElement)
-        {
-            return;
-        }
-
-        previousActive.id = "";
-
-        cycleElement.id = "cell-control--active";
-
-        setToCycle();
-    });
-
-    controls.appendChild(cycleElement);
-
-    ruleSet.cells.forEach(({ tag, color, value }) =>
-    {
-        const cellElement = document.createElement("li");
-        cellElement.innerHTML = `<span style="background-color: ${color};"></span><span>${tag}</span>`;
-
-        cellElement.addEventListener("click", () =>
-        {
-            const previousActive = document.getElementById("cell-control--active");
-            if (previousActive === cellElement)
-            {
-                return;
-            }
-
-            previousActive.id = "";
-
-            cellElement.id = "cell-control--active";
-
-            setToSelected(value);
-        });
-
-        controls.appendChild(cellElement);
-    });
-}
-
-function SetupDescription(ruleSet: RuleSet)
-{
-    const rulesetDescription = document.getElementById("ruleset-description");
-
-    rulesetDescription.innerHTML = `
-    <h4 id="ruleset-title">${ruleSet.name}</h4>
-    <div>
-        ${ruleSet.description}
-    </div>
-    `;
-}
-
-setupCellControls(currentRuleSet);
-SetupDescription(currentRuleSet);
+setupUi(currentRuleSet);
 init(DEFAULT_SIZE, currentRuleSet, SquareGridShape.PLANE);
 
 document.getElementById("step-once").addEventListener("click", () =>
@@ -160,8 +98,7 @@ RULE_SETS.forEach((ruleSet, index) =>
 ruleSetSelection.addEventListener("change", () =>
 {
     currentRuleSet = RULE_SETS[ ruleSetSelection.value ];
-    setupCellControls(currentRuleSet);
-    SetupDescription(currentRuleSet);
+    setupUi(currentRuleSet);
     init(currentSize, currentRuleSet, currentShape);
 });
 
