@@ -74,7 +74,7 @@ document.getElementById("paste-grid").addEventListener("click", () =>
     deserialize(pasteTarget.value);
 });
 
-document.getElementById("select-ruleset-alt").addEventListener("click", () =>
+document.getElementById("select-ruleset").addEventListener("click", () =>
 {
     document.getElementById("ruleset-select-window").classList.add("visible");
 });
@@ -82,24 +82,6 @@ document.getElementById("select-ruleset-alt").addEventListener("click", () =>
 document.getElementById("ruleset-select-window--exit").addEventListener("click", () =>
 {
     document.getElementById("ruleset-select-window").classList.remove("visible");
-});
-
-const ruleSetSelection = <HTMLSelectElement>document.getElementById("select-ruleset");
-
-RULE_SETS.forEach((ruleSet, index) =>
-{
-    const newRuleSetOption = document.createElement("option");
-    newRuleSetOption.value = String(index);
-    newRuleSetOption.innerText = ruleSet.name;
-
-    ruleSetSelection.appendChild(newRuleSetOption);
-});
-
-ruleSetSelection.addEventListener("change", () =>
-{
-    currentRuleSet = RULE_SETS[ ruleSetSelection.value ];
-    setupUi(currentRuleSet);
-    init(currentSize, currentRuleSet, currentShape);
 });
 
 const shapeSelection = <HTMLSelectElement>document.getElementById("select-shape");
